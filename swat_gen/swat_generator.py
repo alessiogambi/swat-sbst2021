@@ -15,14 +15,13 @@ class SwatTestGenerator:
     isn't optimized and the roads can intersect.
     """
 
-    def __init__(self, time_budget=None, executor=None, map_size=None):
+    def __init__(self, executor=None, map_size=None):
         self.map_size = map_size
-        self.time_budget = time_budget
         self.executor = executor
 
     def start(self):
 
-        while self.executor.get_remaining_time() > 0:
+        while not self.executor.time_budget.is_over():
             # Some debugging
             log.info(
                 "Starting test generation. Remaining time %s",
@@ -58,5 +57,5 @@ class SwatTestGenerator:
 
 
 if __name__ == "__main__":
-    tests = SwatTestGenerator(time_budget=250000, executor="mock", map_size=200)
+    tests = SwatTestGenerator(executor="mock", map_size=200)
     tests.start()
